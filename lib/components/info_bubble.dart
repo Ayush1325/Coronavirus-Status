@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class InfoBubble extends StatelessWidget {
   final String title;
-  final int num;
+  final String num;
   final Color color;
 
   InfoBubble({Key key, this.title, this.num, this.color});
@@ -33,7 +33,7 @@ class InfoBubble extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(4.0),
                   child: Text(
-                    this.num.toString(),
+                    this.num,
                     style: TextStyle(
                       fontSize: 20,
                     ),
