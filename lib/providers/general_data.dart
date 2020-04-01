@@ -4,80 +4,50 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class GeneralData extends ChangeNotifier {
-  Map<String, Data> data;
-  int items;
-  String key;
-  List<String> keys;
-
+  List<Data> data;
   GeneralData() {
-    items = 0;
-    data = Map();
-    dummyData();
-    genKeys();
+    data = dummyData();
     refresh();
   }
 
   void refresh() async {
-    data.clear();
-    await fetchData();
-    genKeys();
+    data = await fetchData();
     notifyListeners();
   }
 
-  void dummyData() {
-    data['Total'] = Data(0, 0, 0, 0);
-    key = 'Total';
-    items = 4;
+  List<Data> dummyData() {
+    List<Data> temp = List();
+    temp.add(Data('Confirmed', 0, 0, Colors.red));
+    temp.add(Data("Active", 0, 0, Colors.blue));
+    temp.add(Data("Recovered", 0, 0, Colors.green));
+    temp.add(Data("Deceased", 0, 0, Colors.blueGrey));
+    return temp;
   }
 
-  Future<void> fetchData() async {
+  Future<List<Data>> fetchData() async {
     var res = await http.get("https://api.covid19india.org/data.json");
     Map<String, dynamic> body = jsonDecode(res.body);
     List<dynamic> states = body['statewise'];
-    states.forEach((element) {
-      Map<String, dynamic> temp = element;
-      data[element['state']] = Data.fromJson(temp);
-    });
-  }
-
-  void genKeys() {
-    keys = data.keys.toList();
-  }
-
-  void updateKey(String temp) {
-    key = temp;
-    notifyListeners();
-  }
-}
-
-class Data {
-  final int active;
-  final int confirmed;
-  final int deaths;
-  final int recovered;
-
-  Data(this.active, this.confirmed, this.deaths, this.recovered);
-
-  Data.fromJson(Map<String, dynamic> json)
-      : active = int.parse(json['active']),
-        confirmed = int.parse(json['confirmed']),
-        deaths = int.parse(json['deaths']),
-        recovered = int.parse(json['recovered']);
-
-  List<BubbleData> getData() {
-    List<BubbleData> temp = List();
-    temp.add(BubbleData("Active", active, Colors.amber));
-    temp.add(BubbleData("Deaths", deaths, Colors.red));
-    temp.add(BubbleData("Confirmed", confirmed, Colors.deepOrangeAccent));
-    temp.add(BubbleData("Recovered", recovered, Colors.greenAccent));
+    List<dynamic> keyValues = body['key_values'];
+    Map<String, dynamic> total = states.first;
+    Map<String, dynamic> deltas = keyValues.first;
+    List<Data> temp = List();
+    temp.add(Data('Confirmed', int.parse(total['confirmed']),
+        int.parse(deltas['confirmeddelta']), Colors.red));
+    temp.add(Data("Active", int.parse(total['active']), 0, Colors.blue));
+    temp.add(Data("Recovered", int.parse(total['recovered']),
+        int.parse(deltas['recovereddelta']), Colors.green));
+    temp.add(Data("Deceased", int.parse(total['deaths']),
+        int.parse(deltas['deceaseddelta']), Colors.blueGrey));
     return temp;
   }
 }
 
-class BubbleData {
+class Data {
   final String title;
   final int num;
+  final int delta;
   final Color color;
 
-  BubbleData(this.title, this.num, this.color);
+  Data(this.title, this.num, this.delta, this.color);
 }

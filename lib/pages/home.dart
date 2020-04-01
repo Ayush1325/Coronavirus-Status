@@ -1,3 +1,4 @@
+import 'package:coronavirusstatus/components/info_list.dart';
 import 'package:coronavirusstatus/components/states_list.dart';
 import 'package:flutter/material.dart';
 import 'package:coronavirusstatus/components/bubbles_list.dart';
@@ -8,6 +9,16 @@ import 'package:coronavirusstatus/providers/general_data.dart';
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Home"),
+      ),
+      drawer: NavDrawer(),
+      body: ChangeNotifierProvider<GeneralData>(
+        create: (_) => GeneralData(),
+        child: InfoList(),
+      ),
+    );
     return DefaultTabController(
       length: 2,
       child: Scaffold(
