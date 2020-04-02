@@ -1,16 +1,8 @@
-# coronavirusstatus
+# Coronavirus Status
+## Basic
+This app uses the same api as the COVID-19 website given in helpful links. I created it because I just wanted an app.
+It is influenced heavily by the website so please check it out. This app still lacks some functionality compared to the site but should be sufficient for most people.
 
-A new Flutter application.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Important Links
+[API](https://api.covid19india.org/)
+[Web Interface](https://www.covid19india.org/)
