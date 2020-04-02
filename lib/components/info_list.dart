@@ -7,14 +7,13 @@ class InfoList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<GeneralData>(
-      builder: (context, model, _) => ListView.separated(
+      builder: (context, model, _) => ListView.builder(
         itemBuilder: (context, index) => InfoItem(
           title: model.data[index].title,
           count: model.data[index].num,
           delta: model.data[index].delta,
           color: model.data[index].color,
         ),
-        separatorBuilder: (BuildContext context, int index) => const Divider(),
         itemCount: model.data.length,
       ),
     );

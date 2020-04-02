@@ -1,3 +1,4 @@
+import 'package:coronavirusstatus/pages/states.dart';
 import 'package:flutter/material.dart';
 import 'pages/home.dart';
 
@@ -13,6 +14,7 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         '/home': (context) => Home(),
+        '/states': (context) => States(),
       },
       initialRoute: '/home',
     );

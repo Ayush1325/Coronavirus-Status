@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-const list = [
-  ["Home", "/home"],
-  ["Graph", "/graph"]
-];
-
 class NavDrawer extends StatelessWidget {
+  final list = [
+    ["Home", "/home"],
+    ['States', "/states"],
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -16,7 +16,7 @@ class NavDrawer extends StatelessWidget {
             title: Text(list[index][0]),
             onTap: () {
               Navigator.pop(context);
-              Navigator.pushNamed(context, list[index][2]);
+              Navigator.pushReplacementNamed(context, list[index][1]);
             },
           );
         },
