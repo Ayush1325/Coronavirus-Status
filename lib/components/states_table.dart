@@ -6,34 +6,37 @@ class StatesTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<StatesData>(
-      builder: (context, model, _) => SingleChildScrollView(
-        child: DataTable(
-          sortAscending: model.sortType,
-          sortColumnIndex: model.sortCol,
-          columns: model.columns
-              .map((e) => DataColumn(
-                    label: Text(
-                      e.title,
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                    ),
-                    numeric: (e.isNumeric),
-                    onSort: (i, b) {
-                      model.setSort(i, b);
-                      model.sort();
-                    },
-                  ))
-              .toList(),
-          rows: model.data
-              .map((e) => DataRow(
-                  cells: e
-                      .getList()
-                      .map((e) => DataCell(Text(
-                            e,
-                            style: TextStyle(fontSize: 15),
-                          )))
-                      .toList()))
-              .toList(),
+      builder: (context, model, _) => RefreshIndicator(
+        onRefresh: model.refresh,
+        child: SingleChildScrollView(
+          child: DataTable(
+            sortAscending: model.sortType,
+            sortColumnIndex: model.sortCol,
+            columns: model.columns
+                .map((e) => DataColumn(
+                      label: Text(
+                        e.title,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18),
+                      ),
+                      numeric: (e.isNumeric),
+                      onSort: (i, b) {
+                        model.setSort(i, b);
+                        model.sort();
+                      },
+                    ))
+                .toList(),
+            rows: model.data
+                .map((e) => DataRow(
+                    cells: e
+                        .getList()
+                        .map((e) => DataCell(Text(
+                              e,
+                              style: TextStyle(fontSize: 15),
+                            )))
+                        .toList()))
+                .toList(),
+          ),
         ),
       ),
     );

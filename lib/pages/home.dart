@@ -1,6 +1,5 @@
 import 'package:coronavirusstatus/components/info_list.dart';
 import 'package:coronavirusstatus/components/last_updated.dart';
-import 'package:coronavirusstatus/components/states_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:coronavirusstatus/components/nav_drawer.dart';

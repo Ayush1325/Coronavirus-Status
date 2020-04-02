@@ -17,7 +17,7 @@ class ChartsData extends ChangeNotifier {
     ];
   }
 
-  void refresh() async {
+  Future<void> refresh() async {
     var data = await _fetchData();
     charts = _chartsPlot(data);
     notifyListeners();

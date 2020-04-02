@@ -17,7 +17,7 @@ class StatesData extends ChangeNotifier {
     refresh();
   }
 
-  void refresh() async {
+  Future<void> refresh() async {
     data = await _fetchData();
     notifyListeners();
   }

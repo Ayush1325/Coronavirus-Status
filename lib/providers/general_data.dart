@@ -16,7 +16,7 @@ class GeneralData extends ChangeNotifier {
     refresh();
   }
 
-  void refresh() async {
+  Future<void> refresh() async {
     data = await fetchData();
     _setUpdated();
     notifyListeners();
@@ -38,7 +38,7 @@ class GeneralData extends ChangeNotifier {
     } else if (temp.inMinutes < 60) {
       delta = "${temp.inMinutes} Minutes";
     } else if (temp.inHours < 24) {
-      delta = "${(temp.inHours + (temp.inMinutes % 60)).ceil()} Hours";
+      delta = "${(temp.inHours + ((temp.inMinutes % 60) / 60)).ceil()} Hours";
     } else {
       delta = "${temp.inDays} Days";
     }

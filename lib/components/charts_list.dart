@@ -7,11 +7,14 @@ class ChartsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<ChartsData>(
-      builder: (context, model, _) => ListView.builder(
-        itemCount: model.charts.length,
-        itemBuilder: (context, index) => GeneralTimeChart(
-          title: model.charts[index].title,
-          data: model.charts[index].data,
+      builder: (context, model, _) => RefreshIndicator(
+        onRefresh: model.refresh,
+        child: ListView.builder(
+          itemCount: model.charts.length,
+          itemBuilder: (context, index) => GeneralTimeChart(
+            title: model.charts[index].title,
+            data: model.charts[index].data,
+          ),
         ),
       ),
     );
