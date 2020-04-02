@@ -4,6 +4,7 @@ class NavDrawer extends StatelessWidget {
   final list = [
     ["Home", "/home"],
     ['States', "/states"],
+    ['Graphs', "/graphs"],
   ];
 
   @override
