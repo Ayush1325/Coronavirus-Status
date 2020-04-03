@@ -1,3 +1,4 @@
+import 'package:coronavirusstatus/pages/state.dart';
 import 'package:coronavirusstatus/providers/states_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -28,13 +29,23 @@ class StatesTable extends StatelessWidget {
                       ))
                   .toList(),
               rows: model.data
-                  .map((e) => DataRow(
-                      cells: e
+                  .map((i) => DataRow(
+                      cells: i
                           .getRow(model.width)
-                          .map((e) => DataCell(Text(
-                                e,
-                                style: TextStyle(fontSize: 15),
-                              )))
+                          .map((e) => DataCell(
+                                Text(
+                                  e,
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) => StateInfo(
+                                                dat: i.getStateData(),
+                                              )));
+                                },
+                              ))
                           .toList()))
                   .toList(),
             ),

@@ -1,11 +1,12 @@
 import 'dart:convert';
+import 'package:coronavirusstatus/models/info_data.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class GeneralData extends ChangeNotifier {
-  List<Data> data;
+  List<InfoData> data;
   DateTime lastUpdated;
   String delta;
 
@@ -22,12 +23,12 @@ class GeneralData extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<Data> dummyData() {
-    List<Data> temp = List();
-    temp.add(Data('Confirmed', 0, 0, Colors.red));
-    temp.add(Data("Active", 0, 0, Colors.blue));
-    temp.add(Data("Recovered", 0, 0, Colors.green));
-    temp.add(Data("Deceased", 0, 0, Colors.blueGrey[300]));
+  List<InfoData> dummyData() {
+    List<InfoData> temp = List();
+    temp.add(InfoData('Confirmed', 0, 0, Colors.red));
+    temp.add(InfoData("Active", 0, 0, Colors.blue));
+    temp.add(InfoData("Recovered", 0, 0, Colors.green));
+    temp.add(InfoData("Deceased", 0, 0, Colors.blueGrey[300]));
     return temp;
   }
 
@@ -44,7 +45,7 @@ class GeneralData extends ChangeNotifier {
     }
   }
 
-  Future<List<Data>> fetchData() async {
+  Future<List<InfoData>> fetchData() async {
     var res = await http.get("https://api.covid19india.org/data.json");
     Map<String, dynamic> body = jsonDecode(res.body);
     List<dynamic> states = body['statewise'];
@@ -53,23 +54,14 @@ class GeneralData extends ChangeNotifier {
     Map<String, dynamic> deltas = keyValues.first;
     lastUpdated =
         DateFormat("dd/MM/yyyy HH:mm:ss").parse(deltas['lastupdatedtime']);
-    List<Data> temp = List();
-    temp.add(Data('Confirmed', int.parse(total['confirmed']),
+    List<InfoData> temp = List();
+    temp.add(InfoData('Confirmed', int.parse(total['confirmed']),
         int.parse(deltas['confirmeddelta']), Colors.red));
-    temp.add(Data("Active", int.parse(total['active']), 0, Colors.blue));
-    temp.add(Data("Recovered", int.parse(total['recovered']),
+    temp.add(InfoData("Active", int.parse(total['active']), 0, Colors.blue));
+    temp.add(InfoData("Recovered", int.parse(total['recovered']),
         int.parse(deltas['recovereddelta']), Colors.green));
-    temp.add(Data("Deceased", int.parse(total['deaths']),
+    temp.add(InfoData("Deceased", int.parse(total['deaths']),
         int.parse(deltas['deceaseddelta']), Colors.blueGrey[300]));
     return temp;
   }
-}
-
-class Data {
-  final String title;
-  final int num;
-  final int delta;
-  final Color color;
-
-  Data(this.title, this.num, this.delta, this.color);
 }

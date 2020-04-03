@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:coronavirusstatus/models/table_col_data.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -58,7 +59,7 @@ class StatesData extends ChangeNotifier {
 
   List<Data> _dummyData() {
     List<Data> temp = List();
-    temp.add(Data("Total", 0, 0, 0, 0));
+    temp.add(Data("Total", 0, 0, 0, 0, 0, 0, 0));
     return temp;
   }
 
@@ -82,15 +83,22 @@ class Data {
   final int deaths;
   final int active;
   final int recovered;
+  final int deltaConfirmed;
+  final int deltaDeaths;
+  final int deltaRecovered;
 
-  Data(this.state, this.confirmed, this.deaths, this.active, this.recovered);
+  Data(this.state, this.confirmed, this.deaths, this.active, this.recovered,
+      this.deltaConfirmed, this.deltaRecovered, this.deltaDeaths);
 
   Data.fromJson(Map<String, dynamic> json)
       : state = json['state'],
         confirmed = int.parse(json['confirmed']),
         active = int.parse(json['active']),
         recovered = int.parse(json['recovered']),
-        deaths = int.parse(json['deaths']);
+        deaths = int.parse(json['deaths']),
+        deltaConfirmed = int.parse(json['deltaconfirmed']),
+        deltaRecovered = int.parse(json['deltarecovered']),
+        deltaDeaths = int.parse(json['deltadeaths']);
 
   List<String> getRow(bool state) {
     List<String> temp = [this.state, this.confirmed.toString()];
@@ -108,7 +116,10 @@ class Data {
       this.confirmed,
       this.active,
       this.recovered,
-      this.deaths
+      this.deaths,
+      this.deltaConfirmed,
+      this.deltaRecovered,
+      this.deltaDeaths,
     ];
   }
 
@@ -147,11 +158,4 @@ class Data {
     }
     return ((order) ? 1 : -1) * temp;
   }
-}
-
-class ColData {
-  final String title;
-  final bool isNumeric;
-
-  ColData(this.title, this.isNumeric);
 }
