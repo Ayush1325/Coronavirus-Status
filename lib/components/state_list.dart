@@ -1,5 +1,6 @@
 import 'package:coronavirusstatus/components/district_table.dart';
 import 'package:coronavirusstatus/providers/state_data.dart';
+import 'info_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

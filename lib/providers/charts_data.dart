@@ -5,11 +5,11 @@ import 'dart:convert';
 import 'package:charts_flutter/flutter.dart' as charts_flutter;
 
 class ChartsData extends ChangeNotifier {
-  List<Chart> charts;
+  List<List<Chart>> charts;
   double height;
 
   ChartsData(Size size) {
-    charts = _dummyData();
+    charts = [_dummyData(), _dummyData()];
     height = _calcHeight(size);
     refresh();
   }
@@ -35,13 +35,31 @@ class ChartsData extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<Chart> _chartsPlot(List<dynamic> data) {
+  List<List<Chart>> _chartsPlot(List<dynamic> data) {
+    List<List<Chart>> temp = List();
+    temp.add(_linePlot(data));
+    temp.add(_barPlot(data));
+    return temp;
+  }
+
+  List<Chart> _linePlot(List<dynamic> data) {
     List<Chart> temp = List();
     temp.add(Chart("Confirmed", _chartPlot(data, 'totalconfirmed'),
         charts_flutter.MaterialPalette.red.shadeDefault));
     temp.add(Chart("Recovered", _chartPlot(data, "totalrecovered"),
         charts_flutter.MaterialPalette.green.shadeDefault));
     temp.add(Chart("Deceased", _chartPlot(data, "totaldeceased"),
+        charts_flutter.MaterialPalette.blue.shadeDefault));
+    return temp;
+  }
+
+  List<Chart> _barPlot(List<dynamic> data) {
+    List<Chart> temp = List();
+    temp.add(Chart("Confirmed", _chartPlot(data, 'dailyconfirmed'),
+        charts_flutter.MaterialPalette.red.shadeDefault));
+    temp.add(Chart("Recovered", _chartPlot(data, "dailyrecovered"),
+        charts_flutter.MaterialPalette.green.shadeDefault));
+    temp.add(Chart("Deceased", _chartPlot(data, "dailydeceased"),
         charts_flutter.MaterialPalette.blue.shadeDefault));
     return temp;
   }

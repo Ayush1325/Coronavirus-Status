@@ -2,13 +2,13 @@ import 'package:coronavirusstatus/models/time_series_data.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
-class GeneralTimeChart extends StatelessWidget {
+class GeneralBarChart extends StatelessWidget {
   final List<TimeSeriesData> data;
   final String title;
   final double height;
   final charts.Color color;
 
-  GeneralTimeChart({Key key, this.title, this.data, this.height, this.color});
+  GeneralBarChart({Key key, this.title, this.data, this.height, this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +34,12 @@ class GeneralTimeChart extends StatelessWidget {
                   ),
                 ],
                 animate: false,
+                defaultRenderer: new charts.BarRendererConfig<DateTime>(),
+                defaultInteractions: false,
+                behaviors: [
+                  new charts.SelectNearest(),
+                  new charts.DomainHighlighter()
+                ],
                 domainAxis: new charts.DateTimeAxisSpec(
                   renderSpec: charts.SmallTickRendererSpec(
                     labelStyle: charts.TextStyleSpec(

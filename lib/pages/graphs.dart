@@ -8,15 +8,37 @@ class Graphs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Graphs"),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Graphs"),
+          bottom: TabBar(
+            tabs: <Widget>[
+              Tab(
+                child: Text('Culminative'),
+              ),
+              Tab(
+                child: Text('Daily'),
+              ),
+            ],
+          ),
+        ),
+        body: ChangeNotifierProvider<ChartsData>(
+          create: (_) => ChartsData(size),
+          child: TabBarView(
+            children: <Widget>[
+              ChartsList(
+                pos: 0,
+              ),
+              ChartsList(
+                pos: 1,
+              ),
+            ],
+          ),
+        ),
+        drawer: NavDrawer(),
       ),
-      body: ChangeNotifierProvider<ChartsData>(
-        create: (_) => ChartsData(size),
-        child: ChartsList(),
-      ),
-      drawer: NavDrawer(),
     );
   }
 }
