@@ -26,7 +26,7 @@ class NavDrawer extends StatelessWidget {
                 ),
               ),
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Theme.of(context).primaryColor,
               ),
             );
           }

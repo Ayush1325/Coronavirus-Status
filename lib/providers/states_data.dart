@@ -8,13 +8,24 @@ class StatesData extends ChangeNotifier {
   List<ColData> columns;
   int sortCol;
   bool sortType;
+  bool width;
 
-  StatesData() {
+  StatesData(Size size) {
     data = _dummyData();
+    width = _calcWidth(size);
     columns = _createCols();
     sortCol = 1;
     sortType = false;
     refresh();
+  }
+
+  void refreshSize(Size size) {
+    width = _calcWidth(size);
+    columns = _createCols();
+  }
+
+  bool _calcWidth(Size size) {
+    return (size.width > 700);
   }
 
   Future<void> refresh() async {
@@ -29,7 +40,7 @@ class StatesData extends ChangeNotifier {
   }
 
   void sort() {
-    this.data.sort((e1, e2) => e1.cmp(e2, sortCol, sortType));
+    this.data.sort((e1, e2) => e1.cmp(e2, sortCol, sortType, width));
     notifyListeners();
   }
 
@@ -37,13 +48,17 @@ class StatesData extends ChangeNotifier {
     List<ColData> temp = List();
     temp.add(ColData("State/Ut", false));
     temp.add(ColData("CNFMD", true));
+    if (width) {
+      temp.add(ColData("ACTV", true));
+      temp.add(ColData("RCVRD", true));
+    }
     temp.add(ColData("DCSD", true));
     return temp;
   }
 
   List<Data> _dummyData() {
     List<Data> temp = List();
-    temp.add(Data("Total", 0, 0));
+    temp.add(Data("Total", 0, 0, 0, 0));
     return temp;
   }
 
@@ -65,30 +80,70 @@ class Data {
   final String state;
   final int confirmed;
   final int deaths;
+  final int active;
+  final int recovered;
 
-  Data(this.state, this.confirmed, this.deaths);
+  Data(this.state, this.confirmed, this.deaths, this.active, this.recovered);
 
   Data.fromJson(Map<String, dynamic> json)
       : state = json['state'],
         confirmed = int.parse(json['confirmed']),
+        active = int.parse(json['active']),
+        recovered = int.parse(json['recovered']),
         deaths = int.parse(json['deaths']);
 
-  List<String> getList() {
-    return [this.state, this.confirmed.toString(), this.deaths.toString()];
+  List<String> getRow(bool state) {
+    List<String> temp = [this.state, this.confirmed.toString()];
+    if (state) {
+      temp.add(this.active.toString());
+      temp.add(this.recovered.toString());
+    }
+    temp.add(this.deaths.toString());
+    return temp;
   }
 
-  int cmp(Data d, int col, bool order) {
+  List<dynamic> getStateData() {
+    return [
+      this.state,
+      this.confirmed,
+      this.active,
+      this.recovered,
+      this.deaths
+    ];
+  }
+
+  int cmp(Data d, int col, bool order, bool width) {
     int temp = 0;
-    switch (col) {
-      case 0:
-        temp = this.state.compareTo(d.state);
-        break;
-      case 1:
-        temp = this.confirmed.compareTo(d.confirmed);
-        break;
-      case 2:
-        temp = this.deaths.compareTo(d.deaths);
-        break;
+    if (width) {
+      switch (col) {
+        case 0:
+          temp = this.state.compareTo(d.state);
+          break;
+        case 1:
+          temp = this.confirmed.compareTo(d.confirmed);
+          break;
+        case 2:
+          temp = this.active.compareTo(d.active);
+          break;
+        case 3:
+          temp = this.recovered.compareTo(d.recovered);
+          break;
+        case 4:
+          temp = this.deaths.compareTo(d.deaths);
+          break;
+      }
+    } else {
+      switch (col) {
+        case 0:
+          temp = this.state.compareTo(d.state);
+          break;
+        case 1:
+          temp = this.confirmed.compareTo(d.confirmed);
+          break;
+        case 2:
+          temp = this.deaths.compareTo(d.deaths);
+          break;
+      }
     }
     return ((order) ? 1 : -1) * temp;
   }

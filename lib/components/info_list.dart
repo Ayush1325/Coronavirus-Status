@@ -10,6 +10,7 @@ class InfoList extends StatelessWidget {
       builder: (context, model, _) => RefreshIndicator(
         onRefresh: model.refresh,
         child: ListView.builder(
+          padding: EdgeInsets.fromLTRB(2, 5, 2, 100),
           itemBuilder: (context, index) => InfoItem(
             title: model.data[index].title,
             count: model.data[index].num,

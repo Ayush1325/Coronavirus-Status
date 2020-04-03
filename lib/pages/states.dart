@@ -13,7 +13,7 @@ class States extends StatelessWidget {
       ),
       drawer: NavDrawer(),
       body: ChangeNotifierProvider<StatesData>(
-        create: (_) => StatesData(),
+        create: (_) => StatesData(MediaQuery.of(context).size),
         child: StatesTable(),
       ),
     );

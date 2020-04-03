@@ -12,7 +12,9 @@ class Home extends StatelessWidget {
       create: (_) => GeneralData(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Home"),
+          title: Text(
+            "Home",
+          ),
         ),
         drawer: NavDrawer(),
         body: InfoList(),

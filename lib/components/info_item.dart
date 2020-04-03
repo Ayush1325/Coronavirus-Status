@@ -11,29 +11,35 @@ class InfoItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: ListTile(
-        title: Text(
-          this.title,
-          style: TextStyle(
-            fontSize: 20,
-            color: this.color,
-          ),
-        ),
-        subtitle: Text(
-          this.count.toString(),
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: this.color,
-          ),
-        ),
-        trailing: Visibility(
-          visible: (this.delta != 0),
-          child: Text(
-            "+" + this.delta.toString(),
+      child: Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: ListTile(
+          title: Text(
+            this.title,
             style: TextStyle(
+              fontSize: 20,
               color: this.color,
-              fontSize: 18,
+            ),
+          ),
+          subtitle: Padding(
+            padding: EdgeInsets.all(5),
+            child: Text(
+              this.count.toString(),
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: this.color,
+              ),
+            ),
+          ),
+          trailing: Visibility(
+            visible: (this.delta != 0),
+            child: Text(
+              "+" + this.delta.toString(),
+              style: TextStyle(
+                color: this.color,
+                fontSize: 18,
+              ),
             ),
           ),
         ),

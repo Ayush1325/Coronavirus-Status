@@ -27,7 +27,7 @@ class GeneralData extends ChangeNotifier {
     temp.add(Data('Confirmed', 0, 0, Colors.red));
     temp.add(Data("Active", 0, 0, Colors.blue));
     temp.add(Data("Recovered", 0, 0, Colors.green));
-    temp.add(Data("Deceased", 0, 0, Colors.blueGrey));
+    temp.add(Data("Deceased", 0, 0, Colors.blueGrey[300]));
     return temp;
   }
 
@@ -60,7 +60,7 @@ class GeneralData extends ChangeNotifier {
     temp.add(Data("Recovered", int.parse(total['recovered']),
         int.parse(deltas['recovereddelta']), Colors.green));
     temp.add(Data("Deceased", int.parse(total['deaths']),
-        int.parse(deltas['deceaseddelta']), Colors.blueGrey));
+        int.parse(deltas['deceaseddelta']), Colors.blueGrey[300]));
     return temp;
   }
 }

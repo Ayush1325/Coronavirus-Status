@@ -9,13 +9,18 @@ class ChartsList extends StatelessWidget {
     return Consumer<ChartsData>(
       builder: (context, model, _) => RefreshIndicator(
         onRefresh: model.refresh,
-        child: ListView.builder(
-          itemCount: model.charts.length,
-          itemBuilder: (context, index) => GeneralTimeChart(
-            title: model.charts[index].title,
-            data: model.charts[index].data,
-          ),
-        ),
+        child: OrientationBuilder(builder: (context, _) {
+          model.refreshSize(MediaQuery.of(context).size);
+          return ListView.builder(
+            itemCount: model.charts.length,
+            itemBuilder: (context, index) => GeneralTimeChart(
+              title: model.charts[index].title,
+              data: model.charts[index].data,
+              height: model.height,
+              color: model.charts[index].color,
+            ),
+          );
+        }),
       ),
     );
   }

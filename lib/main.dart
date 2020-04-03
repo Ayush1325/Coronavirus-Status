@@ -3,6 +3,7 @@ import 'package:coronavirusstatus/pages/graphs.dart';
 import 'package:coronavirusstatus/pages/helpful_links.dart';
 import 'package:coronavirusstatus/pages/states.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'pages/home.dart';
 
 void main() => runApp(MyApp());
@@ -14,6 +15,34 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        primaryColor: Colors.blue,
+        textTheme: TextTheme(
+          bodyText2: TextStyle(
+            fontSize: 18,
+          ),
+          caption: TextStyle(
+            color: Colors.black,
+          ),
+          headline5: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: Colors.teal,
+        textTheme: TextTheme(
+          bodyText2: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+          ),
+          caption: TextStyle(
+            color: Colors.white,
+          ),
+          headline5: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       routes: {
         '/home': (context) => Home(),

@@ -7,12 +7,13 @@ import 'package:provider/provider.dart';
 class Graphs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text("Graphs"),
       ),
       body: ChangeNotifierProvider<ChartsData>(
-        create: (_) => ChartsData(),
+        create: (_) => ChartsData(size),
         child: ChartsList(),
       ),
       drawer: NavDrawer(),

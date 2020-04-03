@@ -30,6 +30,7 @@ class HelpfulLinks extends StatelessWidget {
             style: TextStyle(
               color: Colors.blue,
               decoration: TextDecoration.underline,
+              fontSize: 18,
             ),
           ),
           onPressed: () {
