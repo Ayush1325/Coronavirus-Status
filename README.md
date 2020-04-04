@@ -6,3 +6,11 @@ It is influenced heavily by the website so please check it out. This app still l
 ## Important Links
 [API](https://api.covid19india.org/)  
 [Web Interface](https://www.covid19india.org/)
+
+## Screenshots
+![Home](screenshots/Screenshot_1585986112.png)
+![States1](screenshots/Screenshot_1585986117.png)
+![States2](screenshots/Screenshot_1585986121.png)
+![District](screenshots/Screenshot_1585986135.png)
+![Graph1](screenshots/Screenshot_1585986140.png)
+![Graph2](screenshots/Screenshot_1585986143.png)
