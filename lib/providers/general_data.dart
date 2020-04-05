@@ -49,19 +49,17 @@ class GeneralData extends ChangeNotifier {
     var res = await http.get("https://api.covid19india.org/data.json");
     Map<String, dynamic> body = jsonDecode(res.body);
     List<dynamic> states = body['statewise'];
-    List<dynamic> keyValues = body['key_values'];
     Map<String, dynamic> total = states.first;
-    Map<String, dynamic> deltas = keyValues.first;
     lastUpdated =
-        DateFormat("dd/MM/yyyy HH:mm:ss").parse(deltas['lastupdatedtime']);
+        DateFormat("dd/MM/yyyy HH:mm:ss").parse(total['lastupdatedtime']);
     List<InfoData> temp = List();
     temp.add(InfoData('Confirmed', int.parse(total['confirmed']),
-        int.parse(deltas['confirmeddelta']), Colors.red));
+        int.parse(total['deltaconfirmed']), Colors.red));
     temp.add(InfoData("Active", int.parse(total['active']), 0, Colors.blue));
     temp.add(InfoData("Recovered", int.parse(total['recovered']),
-        int.parse(deltas['recovereddelta']), Colors.green));
+        int.parse(total['deltarecovered']), Colors.green));
     temp.add(InfoData("Deceased", int.parse(total['deaths']),
-        int.parse(deltas['deceaseddelta']), Colors.blueGrey[300]));
+        int.parse(total['deltadeaths']), Colors.blueGrey[300]));
     return temp;
   }
 }
