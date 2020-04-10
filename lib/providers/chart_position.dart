@@ -10,4 +10,9 @@ class ChartPosition extends ChangeNotifier {
     data = d;
     notifyListeners();
   }
+
+  ChartPosition update(List<TimeSeriesData> d) {
+    data = d;
+    return this;
+  }
 }

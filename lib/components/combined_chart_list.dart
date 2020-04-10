@@ -16,18 +16,22 @@ class CombinedChartList extends StatelessWidget {
           model.refreshSize(MediaQuery.of(context).size);
           return ListView(
             children: <Widget>[
-              ChangeNotifierProvider<ChartPosition>(
+              ChangeNotifierProxyProvider<ChartsData, ChartPosition>(
                 create: (_) => ChartPosition(
                     model.charts[0].map((e) => e.data.last).toList()),
+                update: (_, model, chartPosition) => chartPosition
+                    .update(model.charts[0].map((e) => e.data.last).toList()),
                 child: CombinedTimeChart(
                   title: "Culminative",
                   data: model.charts[0],
                   height: model.height,
                 ),
               ),
-              ChangeNotifierProvider<ChartPosition>(
+              ChangeNotifierProxyProvider<ChartsData, ChartPosition>(
                 create: (_) => ChartPosition(
                     model.charts[1].map((e) => e.data.last).toList()),
+                update: (_, model, chartPosition) => chartPosition
+                    .update(model.charts[1].map((e) => e.data.last).toList()),
                 child: CombinedBarChart(
                   title: "Daily",
                   data: model.charts[1],
