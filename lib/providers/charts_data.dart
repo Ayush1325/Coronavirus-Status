@@ -1,10 +1,11 @@
+import 'package:coronavirusstatus/models/chart_data.dart';
 import 'package:coronavirusstatus/models/time_series_data.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ChartsData extends ChangeNotifier {
-  List<List<Chart>> charts;
+  List<List<ChartData>> charts;
   double height;
 
   ChartsData(Size size) {
@@ -21,9 +22,9 @@ class ChartsData extends ChangeNotifier {
     return size.width * 0.65;
   }
 
-  List<Chart> _dummyData() {
+  List<ChartData> _dummyData() {
     return [
-      Chart("Loading", [TimeSeriesData(DateTime.now(), 0)], Colors.red)
+      ChartData("Loading", [TimeSeriesData(DateTime.now(), 0)], Colors.red)
     ];
   }
 
@@ -33,30 +34,32 @@ class ChartsData extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<List<Chart>> _chartsPlot(List<dynamic> data) {
-    List<List<Chart>> temp = List();
+  List<List<ChartData>> _chartsPlot(List<dynamic> data) {
+    List<List<ChartData>> temp = List();
     temp.add(_linePlot(data));
     temp.add(_barPlot(data));
     return temp;
   }
 
-  List<Chart> _linePlot(List<dynamic> data) {
-    List<Chart> temp = List();
+  List<ChartData> _linePlot(List<dynamic> data) {
+    List<ChartData> temp = List();
     temp.add(
-        Chart("Confirmed", _chartPlot(data, 'totalconfirmed'), Colors.red));
+        ChartData("Confirmed", _chartPlot(data, 'totalconfirmed'), Colors.red));
+    temp.add(ChartData(
+        "Recovered", _chartPlot(data, "totalrecovered"), Colors.green));
     temp.add(
-        Chart("Recovered", _chartPlot(data, "totalrecovered"), Colors.green));
-    temp.add(Chart("Deceased", _chartPlot(data, "totaldeceased"), Colors.blue));
+        ChartData("Deceased", _chartPlot(data, "totaldeceased"), Colors.blue));
     return temp;
   }
 
-  List<Chart> _barPlot(List<dynamic> data) {
-    List<Chart> temp = List();
+  List<ChartData> _barPlot(List<dynamic> data) {
+    List<ChartData> temp = List();
     temp.add(
-        Chart("Confirmed", _chartPlot(data, 'dailyconfirmed'), Colors.red));
+        ChartData("Confirmed", _chartPlot(data, 'dailyconfirmed'), Colors.red));
+    temp.add(ChartData(
+        "Recovered", _chartPlot(data, "dailyrecovered"), Colors.green));
     temp.add(
-        Chart("Recovered", _chartPlot(data, "dailyrecovered"), Colors.green));
-    temp.add(Chart("Deceased", _chartPlot(data, "dailydeceased"), Colors.blue));
+        ChartData("Deceased", _chartPlot(data, "dailydeceased"), Colors.blue));
     return temp;
   }
 
@@ -71,12 +74,4 @@ class ChartsData extends ChangeNotifier {
     timeSeries.removeRange(0, timeSeries.length - 25);
     return timeSeries;
   }
-}
-
-class Chart {
-  final String title;
-  final List<TimeSeriesData> data;
-  final Color color;
-
-  Chart(this.title, this.data, this.color);
 }

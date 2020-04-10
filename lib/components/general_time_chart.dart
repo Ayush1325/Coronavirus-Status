@@ -33,17 +33,16 @@ class GeneralTimeChart extends StatelessWidget {
                   Consumer<ChartPosition>(
                     builder: (context, model, _) => RichText(
                       text: TextSpan(
-                          text: DateFormat("dd MMM").format(model.data.date),
-                          style: TextStyle(
-                            color: this.color,
-                            fontSize: 18,
-                          ),
-                          children: [
-                            TextSpan(text: "\n"),
-                            TextSpan(
-                              text: model.data.value.toString(),
-                            ),
-                          ]),
+                        text: DateFormat("dd MMM").format(model.data[0].date),
+                        style: TextStyle(
+                          color: this.color,
+                          fontSize: 18,
+                        ),
+                        children: model.data
+                            .map((e) =>
+                                TextSpan(text: "\n${e.value.toString()}"))
+                            .toList(),
+                      ),
                     ),
                   ),
                 ],
@@ -66,7 +65,7 @@ class GeneralTimeChart extends StatelessWidget {
                   charts.InitialSelection(selectedDataConfig: [
                     charts.SeriesDatumConfig<DateTime>(
                       this.title,
-                      Provider.of<ChartPosition>(context).data.date,
+                      Provider.of<ChartPosition>(context).data[0].date,
                     )
                   ])
                 ],
@@ -80,7 +79,7 @@ class GeneralTimeChart extends StatelessWidget {
                           model.selectedSeries[0]
                               .measureFn(model.selectedDatum[0].index));
                       Provider.of<ChartPosition>(context, listen: false)
-                          .updatePos(temp);
+                          .updatePos([temp]);
                     }
                   })
                 ],

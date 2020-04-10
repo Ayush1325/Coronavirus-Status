@@ -1,3 +1,4 @@
+import 'package:coronavirusstatus/components/combined_time_chart.dart';
 import 'package:coronavirusstatus/components/general_bar_chart.dart';
 import 'package:coronavirusstatus/components/general_time_chart.dart';
 import 'package:coronavirusstatus/providers/chart_position.dart';
@@ -23,7 +24,7 @@ class ChartsList<T extends StatelessWidget> extends StatelessWidget {
                 if (pos == 0) {
                   return ChangeNotifierProvider<ChartPosition>(
                     create: (_) =>
-                        ChartPosition(model.charts[pos][index].data.last),
+                        ChartPosition([model.charts[pos][index].data.last]),
                     child: GeneralTimeChart(
                       title: model.charts[pos][index].title,
                       data: model.charts[pos][index].data,
@@ -34,7 +35,7 @@ class ChartsList<T extends StatelessWidget> extends StatelessWidget {
                 } else {
                   return ChangeNotifierProvider<ChartPosition>(
                     create: (_) =>
-                        ChartPosition(model.charts[pos][index].data.last),
+                        ChartPosition([model.charts[pos][index].data.last]),
                     child: GeneralBarChart(
                       title: model.charts[pos][index].title,
                       data: model.charts[pos][index].data,
