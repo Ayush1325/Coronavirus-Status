@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
           caption: TextStyle(
             color: Colors.black,
           ),
-          headline5: TextStyle(
+          headline4: TextStyle(
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -32,17 +32,20 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
         primaryColor: Colors.teal,
         textTheme: TextTheme(
-          bodyText2: TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-          ),
-          caption: TextStyle(
-            color: Colors.white,
-          ),
-          headline5: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+            bodyText2: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+            ),
+            caption: TextStyle(
+              color: Colors.white,
+            ),
+            headline4: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+            subtitle1: TextStyle(
+              fontWeight: FontWeight.bold,
+            )),
       ),
       routes: {
         '/home': (context) => Home(),

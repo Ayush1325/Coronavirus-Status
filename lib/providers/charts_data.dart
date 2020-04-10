@@ -2,7 +2,6 @@ import 'package:coronavirusstatus/models/time_series_data.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:charts_flutter/flutter.dart' as charts_flutter;
 
 class ChartsData extends ChangeNotifier {
   List<List<Chart>> charts;
@@ -24,8 +23,7 @@ class ChartsData extends ChangeNotifier {
 
   List<Chart> _dummyData() {
     return [
-      Chart("Loading", [TimeSeriesData(DateTime.now(), 0)],
-          charts_flutter.MaterialPalette.red.shadeDefault)
+      Chart("Loading", [TimeSeriesData(DateTime.now(), 0)], Colors.red)
     ];
   }
 
@@ -44,23 +42,21 @@ class ChartsData extends ChangeNotifier {
 
   List<Chart> _linePlot(List<dynamic> data) {
     List<Chart> temp = List();
-    temp.add(Chart("Confirmed", _chartPlot(data, 'totalconfirmed'),
-        charts_flutter.MaterialPalette.red.shadeDefault));
-    temp.add(Chart("Recovered", _chartPlot(data, "totalrecovered"),
-        charts_flutter.MaterialPalette.green.shadeDefault));
-    temp.add(Chart("Deceased", _chartPlot(data, "totaldeceased"),
-        charts_flutter.MaterialPalette.blue.shadeDefault));
+    temp.add(
+        Chart("Confirmed", _chartPlot(data, 'totalconfirmed'), Colors.red));
+    temp.add(
+        Chart("Recovered", _chartPlot(data, "totalrecovered"), Colors.green));
+    temp.add(Chart("Deceased", _chartPlot(data, "totaldeceased"), Colors.blue));
     return temp;
   }
 
   List<Chart> _barPlot(List<dynamic> data) {
     List<Chart> temp = List();
-    temp.add(Chart("Confirmed", _chartPlot(data, 'dailyconfirmed'),
-        charts_flutter.MaterialPalette.red.shadeDefault));
-    temp.add(Chart("Recovered", _chartPlot(data, "dailyrecovered"),
-        charts_flutter.MaterialPalette.green.shadeDefault));
-    temp.add(Chart("Deceased", _chartPlot(data, "dailydeceased"),
-        charts_flutter.MaterialPalette.blue.shadeDefault));
+    temp.add(
+        Chart("Confirmed", _chartPlot(data, 'dailyconfirmed'), Colors.red));
+    temp.add(
+        Chart("Recovered", _chartPlot(data, "dailyrecovered"), Colors.green));
+    temp.add(Chart("Deceased", _chartPlot(data, "dailydeceased"), Colors.blue));
     return temp;
   }
 
@@ -72,7 +68,7 @@ class ChartsData extends ChangeNotifier {
     var res = await http.get("https://api.covid19india.org/data.json");
     Map<String, dynamic> body = jsonDecode(res.body);
     List<dynamic> timeSeries = body['cases_time_series'];
-    timeSeries.removeRange(0, timeSeries.length - 30);
+    timeSeries.removeRange(0, timeSeries.length - 25);
     return timeSeries;
   }
 }
@@ -80,7 +76,7 @@ class ChartsData extends ChangeNotifier {
 class Chart {
   final String title;
   final List<TimeSeriesData> data;
-  final charts_flutter.Color color;
+  final Color color;
 
   Chart(this.title, this.data, this.color);
 }
