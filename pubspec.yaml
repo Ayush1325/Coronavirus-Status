@@ -1,6 +1,6 @@
 name: coronavirusstatus
 description: A new Flutter application.
-version: 1.2.2+6
+version: 1.2.3+7
 
 environment:
   sdk: ">=2.3.0 <3.0.0"
@@ -14,6 +14,10 @@ dependencies:
   intl: ^0.16.1
   charts_flutter: ^0.9.0
   url_launcher: ^5.4.2
+  ota_update: ^2.2.1
+  package_info: '>=0.4.0 <2.0.0'
+  device_info: ^0.4.2+1
+  permission_handler: ^5.0.0
 
 dev_dependencies:
   flutter_test:

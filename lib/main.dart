@@ -1,6 +1,7 @@
 import 'package:coronavirusstatus/pages/about.dart';
 import 'package:coronavirusstatus/pages/graphs.dart';
 import 'package:coronavirusstatus/pages/helpful_links.dart';
+import 'package:coronavirusstatus/pages/settings.dart';
 import 'package:coronavirusstatus/pages/states.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -53,6 +54,7 @@ class MyApp extends StatelessWidget {
         '/graphs': (context) => Graphs(),
         '/help': (context) => HelpfulLinks(),
         '/about': (context) => About(),
+        '/settings': (context) => Settings(),
       },
       initialRoute: '/home',
     );
