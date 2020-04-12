@@ -1,3 +1,5 @@
+/// Provider for all charts.
+
 import 'package:coronavirusstatus/models/chart_data.dart';
 import 'package:flutter/material.dart';
 import 'package:coronavirusstatus/helpers/constants.dart' as constants;

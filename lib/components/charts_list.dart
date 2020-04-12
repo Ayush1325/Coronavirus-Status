@@ -1,8 +1,7 @@
-import 'package:coronavirusstatus/components/common_bar_chart.dart';
-import 'package:coronavirusstatus/components/common_time_chart.dart';
-
 /// List to show Daily and Cumulative charts.
 
+import 'package:coronavirusstatus/components/common_bar_chart.dart';
+import 'package:coronavirusstatus/components/common_time_chart.dart';
 import 'package:coronavirusstatus/providers/chart_helper.dart';
 import 'package:coronavirusstatus/providers/charts_data.dart';
 import 'package:flutter/material.dart';
