@@ -1,3 +1,5 @@
+/// Daily charts
+
 import 'package:coronavirusstatus/models/time_series_data.dart';
 import 'package:coronavirusstatus/providers/chart_position.dart';
 import 'package:flutter/material.dart';
@@ -103,7 +105,8 @@ class GeneralBarChart extends StatelessWidget {
                   renderSpec: charts.GridlineRendererSpec(
                     labelStyle: charts.TextStyleSpec(
                       color: charts.ColorUtil.fromDartColor(
-                          Theme.of(context).textTheme.caption.color),
+                        Theme.of(context).textTheme.caption.color,
+                      ),
                       fontSize: 14,
                     ),
                     lineStyle: charts.LineStyleSpec(

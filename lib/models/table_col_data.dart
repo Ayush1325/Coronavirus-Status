@@ -1,3 +1,5 @@
+/// Model for table column data.
+
 class ColData {
   final String title;
   final bool isNumeric;

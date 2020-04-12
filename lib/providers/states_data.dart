@@ -1,8 +1,12 @@
+/// Provider for states table
+
 import 'dart:convert';
 
+import 'package:coronavirusstatus/models/info_data.dart';
 import 'package:coronavirusstatus/models/table_col_data.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:coronavirusstatus/helpers/constants.dart' as constants;
 
 class StatesData extends ChangeNotifier {
   List<Data> data;
@@ -10,11 +14,12 @@ class StatesData extends ChangeNotifier {
   int sortCol;
   bool sortType;
   bool width;
+  static const full_width = 700;
 
   StatesData(Size size) {
-    data = _dummyData();
+    _dummyData();
     width = _calcWidth(size);
-    columns = _createCols();
+    columns = _createCols(width);
     sortCol = 1;
     sortType = false;
     refresh();
@@ -22,16 +27,20 @@ class StatesData extends ChangeNotifier {
 
   void refreshSize(Size size) {
     width = _calcWidth(size);
-    columns = _createCols();
+    columns = _createCols(width);
   }
 
   bool _calcWidth(Size size) {
-    return (size.width > 700);
+    return (size.width > full_width);
   }
 
   Future<void> refresh() async {
     data = await _fetchData();
     notifyListeners();
+  }
+
+  void _dummyData() {
+    this.data.add(Data("Loading", 0, 0, 0, 0, 0, 0, 0));
   }
 
   void setSort(int index, bool type) {
@@ -45,29 +54,23 @@ class StatesData extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<ColData> _createCols() {
+  static List<ColData> _createCols(bool width) {
     List<ColData> temp = List();
     temp.add(ColData("State/Ut", false));
-    temp.add(ColData("CNFMD", true));
+    temp.add(ColData(constants.Titles.abbrConfirmed, true));
     if (width) {
-      temp.add(ColData("ACTV", true));
-      temp.add(ColData("RCVRD", true));
+      temp.add(ColData(constants.Titles.abbrActive, true));
+      temp.add(ColData(constants.Titles.abbrRecovered, true));
     }
-    temp.add(ColData("DCSD", true));
+    temp.add(ColData(constants.Titles.abbrDeceased, true));
     return temp;
   }
 
-  List<Data> _dummyData() {
+  static Future<List<Data>> _fetchData() async {
     List<Data> temp = List();
-    temp.add(Data("Total", 0, 0, 0, 0, 0, 0, 0));
-    return temp;
-  }
-
-  Future<List<Data>> _fetchData() async {
-    List<Data> temp = List();
-    var res = await http.get("https://api.covid19india.org/data.json");
+    var res = await http.get(constants.IndianTrackerEndpoints.general);
     Map<String, dynamic> body = jsonDecode(res.body);
-    List<dynamic> states = body['statewise'];
+    List<dynamic> states = body[constants.IndianTrackerJsonTags.stateList];
     states.forEach((element) {
       Map<String, dynamic> t = element;
       temp.add(Data.fromJson(t));
@@ -92,13 +95,20 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json)
       : state = json['state'],
-        confirmed = int.parse(json['confirmed']),
-        active = int.parse(json['active']),
-        recovered = int.parse(json['recovered']),
-        deaths = int.parse(json['deaths']),
-        deltaConfirmed = int.parse(json['deltaconfirmed']),
-        deltaRecovered = int.parse(json['deltarecovered']),
-        deltaDeaths = int.parse(json['deltadeaths']);
+        confirmed = int.parse(
+            json[constants.IndianTrackerJsonTags.stateDistrictConfirmed]),
+        active = int.parse(
+            json[constants.IndianTrackerJsonTags.stateDistrictActive]),
+        recovered = int.parse(
+            json[constants.IndianTrackerJsonTags.stateDistrictRecovered]),
+        deaths = int.parse(
+            json[constants.IndianTrackerJsonTags.stateDistrictDeceased]),
+        deltaConfirmed =
+            int.parse(json[constants.IndianTrackerJsonTags.deltaConfirmed]),
+        deltaRecovered =
+            int.parse(json[constants.IndianTrackerJsonTags.deltaRecovered]),
+        deltaDeaths =
+            int.parse(json[constants.IndianTrackerJsonTags.deltaDeceased]);
 
   List<String> getRow(bool state) {
     List<String> temp = [this.state, this.confirmed.toString()];
@@ -110,16 +120,16 @@ class Data {
     return temp;
   }
 
-  List<dynamic> getStateData() {
+  List<InfoData> getStateData() {
     return [
-      this.state,
-      this.confirmed,
-      this.active,
-      this.recovered,
-      this.deaths,
-      this.deltaConfirmed,
-      this.deltaRecovered,
-      this.deltaDeaths,
+      InfoData(constants.Titles.fullConfirmed, this.confirmed,
+          this.deltaConfirmed, constants.DataColors.confirmed),
+      InfoData(constants.Titles.fullActive, this.active, 0,
+          constants.DataColors.active),
+      InfoData(constants.Titles.fullRecovered, this.recovered,
+          this.deltaRecovered, constants.DataColors.recovered),
+      InfoData(constants.Titles.fullDeceased, this.deaths, this.deltaDeaths,
+          constants.DataColors.deceased),
     ];
   }
 

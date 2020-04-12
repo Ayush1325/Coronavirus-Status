@@ -1,8 +1,11 @@
+/// Provider for data of a particular state.
+
 import 'dart:convert';
 import 'package:coronavirusstatus/models/info_data.dart';
 import 'package:coronavirusstatus/models/table_col_data.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:coronavirusstatus/helpers/constants.dart' as constants;
 
 class StateData extends ChangeNotifier {
   final String state;
@@ -13,7 +16,7 @@ class StateData extends ChangeNotifier {
   bool sortType;
 
   StateData(this.state, this.data) {
-    districts = _dummyData();
+    _dummyData();
     columns = _createCols();
     sortCol = 1;
     sortType = false;
@@ -21,9 +24,8 @@ class StateData extends ChangeNotifier {
   }
 
   Future<void> refresh() async {
-    districts = await _fetchData();
+    districts = await _fetchData(this.state);
     sort();
-    notifyListeners();
   }
 
   void setSort(int index, bool type) {
@@ -37,26 +39,25 @@ class StateData extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<DistrictData> _dummyData() {
-    return [DistrictData('Dummy', 0)];
+  void _dummyData() {
+    this.districts.add(DistrictData('Dummy', 0));
   }
 
-  List<ColData> _createCols() {
+  static List<ColData> _createCols() {
     List<ColData> temp = List();
     temp.add(ColData("DISTRICT", false));
-    temp.add(ColData("CNFMD", true));
+    temp.add(ColData(constants.Titles.abbrConfirmed, true));
     return temp;
   }
 
-  Future<List<DistrictData>> _fetchData() async {
-    var res = await http
-        .get("https://api.covid19india.org/v2/state_district_wise.json");
+  static Future<List<DistrictData>> _fetchData(String state) async {
+    var res = await http.get(constants.IndianTrackerEndpoints.state);
     List<dynamic> body = jsonDecode(res.body);
     Map<String, dynamic> item = body.firstWhere((element) {
       Map<String, dynamic> el = element;
-      return (el['state'] == this.state);
+      return (el['state'] == state);
     });
-    List<dynamic> data = item['districtData'];
+    List<dynamic> data = item[constants.IndianTrackerJsonTags.districtData];
     List<DistrictData> temp =
         data.map((e) => DistrictData.fromJson(e)).toList();
     return temp;
@@ -71,7 +72,8 @@ class DistrictData {
 
   DistrictData.fromJson(Map<String, dynamic> json)
       : name = json['district'],
-        confirmed = json['confirmed'];
+        confirmed =
+            json[constants.IndianTrackerJsonTags.stateDistrictConfirmed];
 
   List<String> getRow() {
     return [this.name, this.confirmed.toString()];

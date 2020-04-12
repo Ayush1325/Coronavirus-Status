@@ -1,3 +1,5 @@
+/// Chart for combining daily data.
+
 import 'package:coronavirusstatus/models/chart_data.dart';
 import 'package:coronavirusstatus/models/time_series_data.dart';
 import 'package:coronavirusstatus/providers/chart_position.dart';

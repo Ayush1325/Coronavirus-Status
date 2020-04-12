@@ -1,3 +1,5 @@
+/// List to show info items.
+
 import 'package:coronavirusstatus/components/info_item.dart';
 import 'package:coronavirusstatus/providers/general_data.dart';
 import 'package:flutter/material.dart';

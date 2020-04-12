@@ -1,9 +1,12 @@
+/// Provider for the home page.
+
 import 'dart:convert';
 import 'package:coronavirusstatus/models/info_data.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:coronavirusstatus/helpers/constants.dart' as constants;
 
 class GeneralData extends ChangeNotifier {
   List<InfoData> data;
@@ -11,55 +14,80 @@ class GeneralData extends ChangeNotifier {
   String delta;
 
   GeneralData() {
-    data = dummyData();
-    lastUpdated = DateTime.now();
-    _setUpdated();
+    _dummyData();
     refresh();
   }
 
   Future<void> refresh() async {
-    data = await fetchData();
-    _setUpdated();
+    var temp = await _fetchData();
+    lastUpdated = temp.time;
+    data = temp.data;
+    delta = _setUpdated(lastUpdated);
     notifyListeners();
   }
 
-  List<InfoData> dummyData() {
-    List<InfoData> temp = List();
-    temp.add(InfoData('Confirmed', 0, 0, Colors.red));
-    temp.add(InfoData("Active", 0, 0, Colors.blue));
-    temp.add(InfoData("Recovered", 0, 0, Colors.green));
-    temp.add(InfoData("Deceased", 0, 0, Colors.blueGrey[300]));
-    return temp;
+  void _dummyData() {
+    this.data.add(InfoData(
+        constants.Titles.fullConfirmed, 0, 0, constants.DataColors.confirmed));
+    this.data.add(InfoData(
+        constants.Titles.fullActive, 0, 0, constants.DataColors.active));
+    this.data.add(InfoData(
+        constants.Titles.fullRecovered, 0, 0, constants.DataColors.recovered));
+    this.data.add(InfoData(
+        constants.Titles.fullDeceased, 0, 0, constants.DataColors.deceased));
+    this.lastUpdated = DateTime.now();
+    this.delta = _setUpdated(lastUpdated);
   }
 
-  void _setUpdated() {
-    Duration temp = DateTime.now().difference(lastUpdated);
+  static String _setUpdated(DateTime time) {
+    Duration temp = DateTime.now().difference(time);
     if (temp.inSeconds < 60) {
-      delta = "${temp.inSeconds} Seconds";
+      return "${temp.inSeconds} Seconds";
     } else if (temp.inMinutes < 60) {
-      delta = "${temp.inMinutes} Minutes";
+      return "${temp.inMinutes} Minutes";
     } else if (temp.inHours < 24) {
-      delta = "${(temp.inHours + ((temp.inMinutes % 60) / 60)).ceil()} Hours";
+      return "${(temp.inHours + ((temp.inMinutes % 60) / 60)).ceil()} Hours";
     } else {
-      delta = "${temp.inDays} Days";
+      return "${temp.inDays} Days";
     }
   }
 
-  Future<List<InfoData>> fetchData() async {
-    var res = await http.get("https://api.covid19india.org/data.json");
+  static Future<FetchedData> _fetchData() async {
+    FetchedData temp = FetchedData();
+    var res = await http.get(constants.IndianTrackerEndpoints.general);
     Map<String, dynamic> body = jsonDecode(res.body);
-    List<dynamic> states = body['statewise'];
+    List<dynamic> states = body[constants.IndianTrackerJsonTags.stateList];
     Map<String, dynamic> total = states.first;
-    lastUpdated =
-        DateFormat("dd/MM/yyyy HH:mm:ss").parse(total['lastupdatedtime']);
-    List<InfoData> temp = List();
-    temp.add(InfoData('Confirmed', int.parse(total['confirmed']),
-        int.parse(total['deltaconfirmed']), Colors.red));
-    temp.add(InfoData("Active", int.parse(total['active']), 0, Colors.blue));
-    temp.add(InfoData("Recovered", int.parse(total['recovered']),
-        int.parse(total['deltarecovered']), Colors.green));
-    temp.add(InfoData("Deceased", int.parse(total['deaths']),
-        int.parse(total['deltadeaths']), Colors.blueGrey[300]));
+    temp.time = DateFormat(constants.IndianTrackerJsonTags.dateFormat)
+        .parse(total[constants.IndianTrackerJsonTags.lastUpdate]);
+    temp.data = List();
+    temp.data.add(InfoData(
+        constants.Titles.fullConfirmed,
+        int.parse(
+            total[constants.IndianTrackerJsonTags.stateDistrictConfirmed]),
+        int.parse(total[constants.IndianTrackerJsonTags.deltaConfirmed]),
+        constants.DataColors.confirmed));
+    temp.data.add(InfoData(
+        constants.Titles.fullActive,
+        int.parse(total[constants.IndianTrackerJsonTags.stateDistrictActive]),
+        0,
+        constants.DataColors.active));
+    temp.data.add(InfoData(
+        constants.Titles.fullRecovered,
+        int.parse(
+            total[constants.IndianTrackerJsonTags.stateDistrictRecovered]),
+        int.parse(total[constants.IndianTrackerJsonTags.deltaRecovered]),
+        constants.DataColors.recovered));
+    temp.data.add(InfoData(
+        constants.Titles.fullDeceased,
+        int.parse(total[constants.IndianTrackerJsonTags.stateDistrictDeceased]),
+        int.parse(total[constants.IndianTrackerJsonTags.deltaDeceased]),
+        constants.DataColors.deceased));
     return temp;
   }
+}
+
+class FetchedData {
+  DateTime time;
+  List<InfoData> data;
 }

@@ -1,3 +1,5 @@
+/// List for showing combined charts.
+
 import 'package:coronavirusstatus/components/combined_bar_chart.dart';
 import 'package:coronavirusstatus/providers/chart_position.dart';
 import 'package:coronavirusstatus/providers/charts_data.dart';

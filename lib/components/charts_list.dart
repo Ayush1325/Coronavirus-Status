@@ -1,4 +1,5 @@
-import 'package:coronavirusstatus/components/combined_time_chart.dart';
+/// List to show Daily and Cumulative charts.
+
 import 'package:coronavirusstatus/components/general_bar_chart.dart';
 import 'package:coronavirusstatus/components/general_time_chart.dart';
 import 'package:coronavirusstatus/providers/chart_position.dart';

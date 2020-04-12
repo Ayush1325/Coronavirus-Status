@@ -1,6 +1,7 @@
+/// About Page
+
 import 'package:coronavirusstatus/components/nav_drawer.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class About extends StatelessWidget {
   @override
@@ -32,13 +33,5 @@ class About extends StatelessWidget {
         ),
       ]),
     );
-  }
-
-  _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
   }
 }

@@ -1,3 +1,5 @@
+/// List for settings item.
+
 import 'package:coronavirusstatus/helpers/permissions.dart';
 import 'package:coronavirusstatus/helpers/updater.dart';
 import 'package:coronavirusstatus/providers/settings_data.dart';

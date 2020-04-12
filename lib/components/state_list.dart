@@ -1,3 +1,5 @@
+/// List to show state data.
+
 import 'package:coronavirusstatus/components/district_table.dart';
 import 'package:coronavirusstatus/providers/state_data.dart';
 import 'info_item.dart';

@@ -1,9 +1,11 @@
+/// Contains important links
+
 import 'package:coronavirusstatus/components/nav_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HelpfulLinks extends StatelessWidget {
-  final links = [
+  static const links = [
     ["COVID-19 Global Tracker", "https://coronavirus.thebaselab.com/"],
     ["Ministry of Health and Family Welfare", "https://www.mohfw.gov.in/"],
     ["COVID-19 Indian Tracker Web", "https://www.covid19india.org/"],

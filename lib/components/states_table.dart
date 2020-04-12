@@ -1,3 +1,5 @@
+/// Table for States data.
+
 import 'package:coronavirusstatus/pages/state.dart';
 import 'package:coronavirusstatus/providers/states_data.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +44,8 @@ class StatesTable extends StatelessWidget {
                                       context,
                                       MaterialPageRoute(
                                           builder: (_) => StateInfo(
-                                                dat: i.getStateData(),
+                                                state: i.state,
+                                                data: i.getStateData(),
                                               )));
                                 },
                               ))

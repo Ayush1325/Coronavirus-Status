@@ -1,3 +1,5 @@
+/// Time Series model for graphs.
+
 import 'package:intl/intl.dart';
 
 class TimeSeriesData {

@@ -1,3 +1,5 @@
+/// Graphs Page
+
 import 'package:coronavirusstatus/components/charts_list.dart';
 import 'package:coronavirusstatus/components/combined_chart_list.dart';
 import 'package:coronavirusstatus/components/nav_drawer.dart';

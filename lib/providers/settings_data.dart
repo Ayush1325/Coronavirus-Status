@@ -1,3 +1,5 @@
+/// Provides data for settings page
+
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 
@@ -18,7 +20,7 @@ class SettingsData extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<String> _appVersion() async {
+  static Future<String> _appVersion() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     return packageInfo.version;
   }

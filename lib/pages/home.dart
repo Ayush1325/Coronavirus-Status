@@ -1,3 +1,5 @@
+/// Home Page
+
 import 'package:coronavirusstatus/components/info_list.dart';
 import 'package:coronavirusstatus/components/last_updated.dart';
 import 'package:flutter/material.dart';

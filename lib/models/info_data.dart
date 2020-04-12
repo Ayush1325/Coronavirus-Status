@@ -1,3 +1,5 @@
+///  Class for data of [info_item]
+
 import 'package:flutter/material.dart';
 
 class InfoData {

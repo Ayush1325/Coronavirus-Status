@@ -1,3 +1,5 @@
+/// Item to display particular info.
+
 import 'package:flutter/material.dart';
 
 class InfoItem extends StatelessWidget {

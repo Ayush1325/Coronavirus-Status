@@ -1,3 +1,5 @@
+/// Page for all states data.
+
 import 'package:coronavirusstatus/components/nav_drawer.dart';
 import 'package:coronavirusstatus/components/states_table.dart';
 import 'package:coronavirusstatus/providers/states_data.dart';

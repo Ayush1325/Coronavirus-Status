@@ -1,3 +1,5 @@
+/// Table for district info.
+
 import 'package:coronavirusstatus/providers/state_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

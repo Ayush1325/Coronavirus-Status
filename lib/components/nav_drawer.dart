@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class NavDrawer extends StatelessWidget {
-  final list = [
+  static const list = [
     [],
     ["Home", "/home"],
     ['States', "/states"],

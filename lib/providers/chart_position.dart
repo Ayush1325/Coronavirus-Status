@@ -1,3 +1,6 @@
+/// Provider for showing and managing showing info in charts.
+/// Currently common for all charts.
+
 import 'package:coronavirusstatus/models/time_series_data.dart';
 import 'package:flutter/material.dart';
 

@@ -1,3 +1,5 @@
+/// Settings Page
+
 import 'package:coronavirusstatus/components/nav_drawer.dart';
 import 'package:coronavirusstatus/components/settings_list.dart';
 import 'package:coronavirusstatus/providers/settings_data.dart';
