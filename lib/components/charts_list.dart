@@ -1,8 +1,9 @@
+import 'package:coronavirusstatus/components/common_bar_chart.dart';
+import 'package:coronavirusstatus/components/common_time_chart.dart';
+
 /// List to show Daily and Cumulative charts.
 
-import 'package:coronavirusstatus/components/general_bar_chart.dart';
-import 'package:coronavirusstatus/components/general_time_chart.dart';
-import 'package:coronavirusstatus/providers/chart_position.dart';
+import 'package:coronavirusstatus/providers/chart_helper.dart';
 import 'package:coronavirusstatus/providers/charts_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,25 +24,23 @@ class ChartsList<T extends StatelessWidget> extends StatelessWidget {
               itemCount: model.charts[pos].length,
               itemBuilder: (context, index) {
                 if (pos == 0) {
-                  return ChangeNotifierProvider<ChartPosition>(
-                    create: (_) =>
-                        ChartPosition([model.charts[pos][index].data.last]),
-                    child: GeneralTimeChart(
-                      title: model.charts[pos][index].title,
-                      data: model.charts[pos][index].data,
+                  return ChangeNotifierProxyProvider<ChartsData, ChartHelper>(
+                    create: (_) => ChartHelper([model.charts[pos][index]]),
+                    update: (_, model, chartModel) =>
+                        chartModel.update([model.charts[pos][index]]),
+                    child: CommonTimeChart(
+                      title: "Culminative",
                       height: model.height,
-                      color: model.charts[pos][index].color,
                     ),
                   );
                 } else {
-                  return ChangeNotifierProvider<ChartPosition>(
-                    create: (_) =>
-                        ChartPosition([model.charts[pos][index].data.last]),
-                    child: GeneralBarChart(
-                      title: model.charts[pos][index].title,
-                      data: model.charts[pos][index].data,
+                  return ChangeNotifierProxyProvider<ChartsData, ChartHelper>(
+                    create: (_) => ChartHelper([model.charts[pos][index]]),
+                    update: (_, model, chartModel) =>
+                        chartModel.update([model.charts[pos][index]]),
+                    child: CommonBarChart(
+                      title: "Culminative",
                       height: model.height,
-                      color: model.charts[pos][index].color,
                     ),
                   );
                 }

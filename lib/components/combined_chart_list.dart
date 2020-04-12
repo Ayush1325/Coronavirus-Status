@@ -1,12 +1,11 @@
 /// List for showing combined charts.
 
-import 'package:coronavirusstatus/components/combined_bar_chart.dart';
-import 'package:coronavirusstatus/providers/chart_position.dart';
+import 'package:coronavirusstatus/components/common_bar_chart.dart';
+import 'package:coronavirusstatus/components/common_time_chart.dart';
+import 'package:coronavirusstatus/providers/chart_helper.dart';
 import 'package:coronavirusstatus/providers/charts_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import 'combined_time_chart.dart';
 
 class CombinedChartList extends StatelessWidget {
   @override
@@ -18,25 +17,21 @@ class CombinedChartList extends StatelessWidget {
           model.refreshSize(MediaQuery.of(context).size);
           return ListView(
             children: <Widget>[
-              ChangeNotifierProxyProvider<ChartsData, ChartPosition>(
-                create: (_) => ChartPosition(
-                    model.charts[0].map((e) => e.data.last).toList()),
-                update: (_, model, chartPosition) => chartPosition
-                    .update(model.charts[0].map((e) => e.data.last).toList()),
-                child: CombinedTimeChart(
+              ChangeNotifierProxyProvider<ChartsData, ChartHelper>(
+                create: (_) => ChartHelper(model.charts[0]),
+                update: (_, model, chartModel) =>
+                    chartModel.update(model.charts[0]),
+                child: CommonTimeChart(
                   title: "Culminative",
-                  data: model.charts[0],
                   height: model.height,
                 ),
               ),
-              ChangeNotifierProxyProvider<ChartsData, ChartPosition>(
-                create: (_) => ChartPosition(
-                    model.charts[1].map((e) => e.data.last).toList()),
-                update: (_, model, chartPosition) => chartPosition
-                    .update(model.charts[1].map((e) => e.data.last).toList()),
-                child: CombinedBarChart(
+              ChangeNotifierProxyProvider<ChartsData, ChartHelper>(
+                create: (_) => ChartHelper(model.charts[1]),
+                update: (_, model, chartModel) =>
+                    chartModel.update(model.charts[1]),
+                child: CommonBarChart(
                   title: "Daily",
-                  data: model.charts[1],
                   height: model.height,
                 ),
               ),

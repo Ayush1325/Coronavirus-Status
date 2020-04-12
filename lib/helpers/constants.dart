@@ -41,10 +41,17 @@ class Titles {
   static const fullRecovered = "Recovered";
   static const fullDeceased = "Deceased";
   static const fullActive = "Active";
-  static const abbrConfirmed = "CNFMD";
-  static const abbrRecovered = "RCVRD";
+  static const abbrConfirmed = "CNFD";
+  static const abbrRecovered = "RCVD";
   static const abbrDeceased = "DCSD";
   static const abbrActive = "ACTV";
+
+  static const mapper = {
+    fullConfirmed: abbrConfirmed,
+    fullDeceased: abbrDeceased,
+    fullRecovered: abbrRecovered,
+    fullActive: abbrActive,
+  };
 }
 
 const updateURL =
