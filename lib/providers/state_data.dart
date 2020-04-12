@@ -16,6 +16,7 @@ class StateData extends ChangeNotifier {
   bool sortType;
 
   StateData(this.state, this.data) {
+    this.districts = List();
     _dummyData();
     columns = _createCols();
     sortCol = 1;

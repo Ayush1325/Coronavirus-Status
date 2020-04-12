@@ -14,6 +14,7 @@ class GeneralData extends ChangeNotifier {
   String delta;
 
   GeneralData() {
+    this.data = List();
     _dummyData();
     refresh();
   }
@@ -60,7 +61,6 @@ class GeneralData extends ChangeNotifier {
     Map<String, dynamic> total = states.first;
     temp.time = DateFormat(constants.IndianTrackerJsonTags.dateFormat)
         .parse(total[constants.IndianTrackerJsonTags.lastUpdate]);
-    temp.data = List();
     temp.data.add(InfoData(
         constants.Titles.fullConfirmed,
         int.parse(
@@ -90,4 +90,8 @@ class GeneralData extends ChangeNotifier {
 class FetchedData {
   DateTime time;
   List<InfoData> data;
+
+  FetchedData() {
+    data = List();
+  }
 }

@@ -17,6 +17,7 @@ class StatesData extends ChangeNotifier {
   static const full_width = 700;
 
   StatesData(Size size) {
+    this.data = List();
     _dummyData();
     width = _calcWidth(size);
     columns = _createCols(width);

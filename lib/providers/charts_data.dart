@@ -14,6 +14,7 @@ class ChartsData extends ChangeNotifier {
   static const height_multiplier = 0.65;
 
   ChartsData(Size size) {
+    this.charts = List();
     _dummyData();
     height = _calcHeight(size);
     refresh();

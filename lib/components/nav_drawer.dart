@@ -7,7 +7,6 @@ class NavDrawer extends StatelessWidget {
     ['States', "/states"],
     ['Graphs', "/graphs"],
     ['Helpful Links', "/help"],
-    ['About', '/about'],
     ['Settings', '/settings']
   ];
 
