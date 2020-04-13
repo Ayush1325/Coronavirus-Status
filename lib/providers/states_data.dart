@@ -181,6 +181,8 @@ class Data {
           this.deltaRecovered, constants.DataColors.recovered),
       InfoData(constants.Titles.fullDeceased, this.deaths, this.deltaDeaths,
           constants.DataColors.deceased),
+      InfoData(constants.Titles.fullTested, this.tested, 0,
+          constants.DataColors.tested),
     ];
   }
 

@@ -36,7 +36,7 @@ class DataColors {
   static const recovered = Colors.green;
   static const active = Colors.blue;
   static const deceased = Colors.blueGrey;
-  static const tested = Colors.indigo;
+  static const tested = Colors.blueAccent;
 }
 
 class Titles {
