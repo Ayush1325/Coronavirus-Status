@@ -7,26 +7,29 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class LastUpdated extends StatelessWidget {
+  final String delta;
+  final DateTime lastUpdated;
+
+  LastUpdated({Key key, this.delta, this.lastUpdated});
+
   @override
   Widget build(BuildContext context) {
-    return Consumer<GeneralData>(
-      builder: (context, model, _) => Container(
-        color: Theme.of(context).primaryColor,
-        padding: EdgeInsets.all(10),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Text(
-              "Last Updated: " + model.delta + " ago",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            Text(
-              DateFormat("dd MMM, HH:mm").format(model.lastUpdated) + " IST",
-              style: TextStyle(fontSize: 18),
-            ),
-          ],
-        ),
+    return Container(
+      color: Theme.of(context).primaryColor,
+      padding: EdgeInsets.all(10),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Text(
+            "Last Updated: $delta ago",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          Text(
+            DateFormat("dd MMM, HH:mm").format(lastUpdated) + " IST",
+            style: TextStyle(fontSize: 18),
+          ),
+        ],
       ),
     );
   }

@@ -47,7 +47,7 @@ class GeneralData extends ChangeNotifier {
     } else if (temp.inMinutes < 60) {
       return "${temp.inMinutes} Minutes";
     } else if (temp.inHours < 24) {
-      return "${(temp.inHours + ((temp.inMinutes % 60) / 60)).ceil()} Hours";
+      return "${(temp.inMinutes / 60).round()} Hours";
     } else {
       return "${temp.inDays} Days";
     }

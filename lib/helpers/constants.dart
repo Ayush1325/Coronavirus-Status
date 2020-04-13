@@ -8,6 +8,7 @@ class IndianTrackerEndpoints {
       "https://api.covid19india.org/v2/state_district_wise.json";
   static const stateTested =
       "https://api.covid19india.org/state_test_data.json";
+  static const updates = "https://api.covid19india.org/updatelog/log.json";
 }
 
 class IndianTrackerJsonTags {
