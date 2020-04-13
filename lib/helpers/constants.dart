@@ -6,6 +6,8 @@ class IndianTrackerEndpoints {
   static const general = "https://api.covid19india.org/data.json";
   static const state =
       "https://api.covid19india.org/v2/state_district_wise.json";
+  static const stateTested =
+      "https://api.covid19india.org/state_test_data.json";
 }
 
 class IndianTrackerJsonTags {
@@ -34,17 +36,20 @@ class DataColors {
   static const recovered = Colors.green;
   static const active = Colors.blue;
   static const deceased = Colors.blueGrey;
+  static const tested = Colors.indigo;
 }
 
 class Titles {
   static const fullConfirmed = "Confirmed";
   static const fullRecovered = "Recovered";
   static const fullDeceased = "Deceased";
+  static const fullTested = "Tested";
   static const fullActive = "Active";
   static const abbrConfirmed = "CNFD";
   static const abbrRecovered = "RCVD";
   static const abbrDeceased = "DCSD";
   static const abbrActive = "ACTV";
+  static const abbrTested = "TSTD";
 
   static const mapper = {
     fullConfirmed: abbrConfirmed,

@@ -27,8 +27,12 @@ class StatesData extends ChangeNotifier {
   }
 
   void refreshSize(Size size) {
-    width = _calcWidth(size);
-    columns = _createCols(width);
+    this.width = _calcWidth(size);
+    this.columns = _createCols(width);
+    if (!width && this.sortCol > 2) {
+      this.sortCol = (this.sortCol == 4) ? 2 : 1;
+    }
+    sort();
   }
 
   bool _calcWidth(Size size) {
@@ -41,18 +45,18 @@ class StatesData extends ChangeNotifier {
   }
 
   void _dummyData() {
-    this.data.add(Data("Loading", 0, 0, 0, 0, 0, 0, 0));
+    this.data.add(Data("Loading", 0, 0, 0, 0, 0, 0, 0, 0));
   }
 
   void setSort(int index, bool type) {
-    sortType = type;
-    sortCol = index;
+    this.sortType = type;
+    this.sortCol = index;
+    sort();
     notifyListeners();
   }
 
   void sort() {
     this.data.sort((e1, e2) => e1.cmp(e2, sortCol, sortType, width));
-    notifyListeners();
   }
 
   static List<ColData> _createCols(bool width) {
@@ -64,20 +68,37 @@ class StatesData extends ChangeNotifier {
       temp.add(ColData(constants.Titles.abbrRecovered, true));
     }
     temp.add(ColData(constants.Titles.abbrDeceased, true));
+    if (width) {
+      temp.add(ColData(constants.Titles.abbrTested, true));
+    }
     return temp;
   }
 
   static Future<List<Data>> _fetchData() async {
     List<Data> temp = List();
-    var res = await http.get(constants.IndianTrackerEndpoints.general);
-    Map<String, dynamic> body = jsonDecode(res.body);
-    List<dynamic> states = body[constants.IndianTrackerJsonTags.stateList];
+    var res1 = await http.get(constants.IndianTrackerEndpoints.general);
+    var res2 = await http.get(constants.IndianTrackerEndpoints.stateTested);
+    Map<String, dynamic> bodyData = jsonDecode(res1.body);
+    Map<String, dynamic> bodyTested = jsonDecode(res2.body);
+    List<dynamic> states = bodyData[constants.IndianTrackerJsonTags.stateList];
+    List<dynamic> tested = bodyTested['states_tested_data'];
     states.forEach((element) {
       Map<String, dynamic> t = element;
-      temp.add(Data.fromJson(t));
+      temp.add(Data.fromJson(t, _findTested(t['state'], tested)));
     });
     temp.removeAt(0);
     return temp;
+  }
+
+  static Map<String, dynamic> _findTested(String state, List<dynamic> tested) {
+    Map<String, dynamic> ans = tested.reversed.firstWhere((element) {
+      Map<String, dynamic> temp = element;
+      return temp['state'] == state;
+    }, orElse: () => {'totaltested': 0.toString()});
+    if (ans['totaltested'].toString().isEmpty) {
+      return {'totaltested': 0.toString()};
+    }
+    return ans;
   }
 }
 
@@ -90,26 +111,28 @@ class Data {
   final int deltaConfirmed;
   final int deltaDeaths;
   final int deltaRecovered;
+  final int tested;
 
   Data(this.state, this.confirmed, this.deaths, this.active, this.recovered,
-      this.deltaConfirmed, this.deltaRecovered, this.deltaDeaths);
+      this.deltaConfirmed, this.deltaRecovered, this.deltaDeaths, this.tested);
 
-  Data.fromJson(Map<String, dynamic> json)
-      : state = json['state'],
+  Data.fromJson(Map<String, dynamic> json1, Map<String, dynamic> json2)
+      : state = json1['state'],
         confirmed = int.parse(
-            json[constants.IndianTrackerJsonTags.stateDistrictConfirmed]),
+            json1[constants.IndianTrackerJsonTags.stateDistrictConfirmed]),
         active = int.parse(
-            json[constants.IndianTrackerJsonTags.stateDistrictActive]),
+            json1[constants.IndianTrackerJsonTags.stateDistrictActive]),
         recovered = int.parse(
-            json[constants.IndianTrackerJsonTags.stateDistrictRecovered]),
+            json1[constants.IndianTrackerJsonTags.stateDistrictRecovered]),
         deaths = int.parse(
-            json[constants.IndianTrackerJsonTags.stateDistrictDeceased]),
+            json1[constants.IndianTrackerJsonTags.stateDistrictDeceased]),
         deltaConfirmed =
-            int.parse(json[constants.IndianTrackerJsonTags.deltaConfirmed]),
+            int.parse(json1[constants.IndianTrackerJsonTags.deltaConfirmed]),
         deltaRecovered =
-            int.parse(json[constants.IndianTrackerJsonTags.deltaRecovered]),
+            int.parse(json1[constants.IndianTrackerJsonTags.deltaRecovered]),
         deltaDeaths =
-            int.parse(json[constants.IndianTrackerJsonTags.deltaDeceased]);
+            int.parse(json1[constants.IndianTrackerJsonTags.deltaDeceased]),
+        tested = int.parse(json2['totaltested']);
 
   List<Widget> genRow(bool state) {
     List<Widget> temp = List();
@@ -126,6 +149,9 @@ class Data {
     }
     temp.add(genWidget(
         this.deaths, this.deltaDeaths, constants.DataColors.deceased));
+    if (state) {
+      temp.add(genWidget(this.tested, 0, constants.DataColors.tested));
+    }
     return temp;
   }
 
@@ -176,6 +202,9 @@ class Data {
           break;
         case 4:
           temp = this.deaths.compareTo(d.deaths);
+          break;
+        case 5:
+          temp = this.tested.compareTo(d.tested);
           break;
       }
     } else {
