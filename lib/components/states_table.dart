@@ -46,7 +46,7 @@ class Content extends StatelessWidget {
             rows: model.data
                 .map((i) => DataRow(
                     cells: i
-                        .genRow(model.width)
+                        .genRow(model.width, context)
                         .map((e) => DataCell(
                               e,
                               onTap: () {

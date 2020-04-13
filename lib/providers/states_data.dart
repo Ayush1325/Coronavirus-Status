@@ -134,11 +134,11 @@ class Data {
             int.parse(json1[constants.IndianTrackerJsonTags.deltaDeceased]),
         tested = int.parse(json2['totaltested']);
 
-  List<Widget> genRow(bool state) {
+  List<Widget> genRow(bool state, BuildContext context) {
     List<Widget> temp = List();
     temp.add(Text(
       this.state,
-      style: TextStyle(color: Colors.white),
+      style: Theme.of(context).textTheme.subtitle2,
     ));
     temp.add(genWidget(
         this.confirmed, this.deltaConfirmed, constants.DataColors.confirmed));
@@ -157,7 +157,9 @@ class Data {
 
   static Widget genWidget(int value, int delta, Color color) {
     if (delta == 0) {
-      return Text(value.toString());
+      return Text(
+        value.toString(),
+      );
     }
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

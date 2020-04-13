@@ -78,11 +78,11 @@ class DistrictData {
         confirmed =
             json[constants.IndianTrackerJsonTags.stateDistrictConfirmed];
 
-  List<Widget> genRow() {
+  List<Widget> genRow(BuildContext context) {
     return [
       Text(
         this.name,
-        style: TextStyle(color: Colors.white),
+        style: Theme.of(context).textTheme.subtitle2,
       ),
       genWidget(this.confirmed, this.delta, constants.DataColors.confirmed),
     ];

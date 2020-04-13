@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'COVID19 Tracker',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         primaryColor: Colors.blue,
@@ -24,6 +24,9 @@ class MyApp extends StatelessWidget {
             color: Colors.black,
           ),
           headline4: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+          subtitle1: TextStyle(
             fontWeight: FontWeight.bold,
           ),
         ),
