@@ -33,20 +33,19 @@ class StatesTable extends StatelessWidget {
               rows: model.data
                   .map((i) => DataRow(
                       cells: i
-                          .getRow(model.width)
+                          .genRow(model.width)
                           .map((e) => DataCell(
-                                Text(
-                                  e,
-                                  style: TextStyle(fontSize: 15),
-                                ),
+                                e,
                                 onTap: () {
                                   Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) => StateInfo(
-                                                state: i.state,
-                                                data: i.getStateData(),
-                                              )));
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => StateInfo(
+                                        state: i.state,
+                                        data: i.getStateData(),
+                                      ),
+                                    ),
+                                  );
                                 },
                               ))
                           .toList()))

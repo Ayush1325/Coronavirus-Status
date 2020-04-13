@@ -41,7 +41,7 @@ class StateData extends ChangeNotifier {
   }
 
   void _dummyData() {
-    this.districts.add(DistrictData('Dummy', 0));
+    this.districts.add(DistrictData('Dummy', 0, 0));
   }
 
   static List<ColData> _createCols() {
@@ -68,16 +68,40 @@ class StateData extends ChangeNotifier {
 class DistrictData {
   final String name;
   final int confirmed;
+  final int delta;
 
-  DistrictData(this.name, this.confirmed);
+  DistrictData(this.name, this.confirmed, this.delta);
 
   DistrictData.fromJson(Map<String, dynamic> json)
-      : name = json['district'],
+      : delta = json['delta']['confirmed'],
+        name = json['district'],
         confirmed =
             json[constants.IndianTrackerJsonTags.stateDistrictConfirmed];
 
-  List<String> getRow() {
-    return [this.name, this.confirmed.toString()];
+  List<Widget> genRow() {
+    return [
+      Text(
+        this.name,
+        style: TextStyle(color: Colors.white),
+      ),
+      genWidget(this.confirmed, this.delta, constants.DataColors.confirmed),
+    ];
+  }
+
+  static Widget genWidget(int value, int delta, Color color) {
+    if (delta == 0) {
+      return Text(value.toString());
+    }
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Text(
+          "+$delta",
+          style: TextStyle(color: color),
+        ),
+        Text(value.toString()),
+      ],
+    );
   }
 
   int cmp(DistrictData d, int col, bool order) {

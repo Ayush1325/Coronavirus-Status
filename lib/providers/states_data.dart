@@ -111,14 +111,38 @@ class Data {
         deltaDeaths =
             int.parse(json[constants.IndianTrackerJsonTags.deltaDeceased]);
 
-  List<String> getRow(bool state) {
-    List<String> temp = [this.state, this.confirmed.toString()];
+  List<Widget> genRow(bool state) {
+    List<Widget> temp = List();
+    temp.add(Text(
+      this.state,
+      style: TextStyle(color: Colors.white),
+    ));
+    temp.add(genWidget(
+        this.confirmed, this.deltaConfirmed, constants.DataColors.confirmed));
     if (state) {
-      temp.add(this.active.toString());
-      temp.add(this.recovered.toString());
+      temp.add(genWidget(this.active, 0, constants.DataColors.active));
+      temp.add(genWidget(
+          this.recovered, this.deltaRecovered, constants.DataColors.recovered));
     }
-    temp.add(this.deaths.toString());
+    temp.add(genWidget(
+        this.deaths, this.deltaDeaths, constants.DataColors.deceased));
     return temp;
+  }
+
+  static Widget genWidget(int value, int delta, Color color) {
+    if (delta == 0) {
+      return Text(value.toString());
+    }
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Text(
+          "+$delta",
+          style: TextStyle(color: color),
+        ),
+        Text(value.toString()),
+      ],
+    );
   }
 
   List<InfoData> getStateData() {

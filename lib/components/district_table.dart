@@ -28,14 +28,8 @@ class DistrictTable extends StatelessWidget {
               )
               .toList(),
           rows: model.districts
-              .map((e) => DataRow(
-                  cells: e
-                      .getRow()
-                      .map((e) => DataCell(Text(
-                            e,
-                            style: TextStyle(fontSize: 15),
-                          )))
-                      .toList()))
+              .map((e) =>
+                  DataRow(cells: e.genRow().map((e) => DataCell(e)).toList()))
               .toList(),
         ),
       ),
