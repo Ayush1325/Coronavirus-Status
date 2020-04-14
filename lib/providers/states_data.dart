@@ -95,10 +95,13 @@ class StatesData extends ChangeNotifier {
       Map<String, dynamic> temp = element;
       return temp['state'] == state;
     }, orElse: () => {'totaltested': 0.toString()});
-    if (ans['totaltested'].toString().isEmpty) {
+
+    try {
+      int.parse(ans['totaltested']);
+      return ans;
+    } catch (_) {
       return {'totaltested': 0.toString()};
     }
-    return ans;
   }
 }
 
